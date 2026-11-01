@@ -1,0 +1,57 @@
+# Ejemplo: cómo consumir los workflows reutilizables.
+# Desde otro repositorio usa la ruta completa con una versión fija, p. ej.:
+#   uses: angel-cm-dev/plantillas-github-actions/.github/workflows/reusable-node.yml@v1
+name: Ejemplo · consumidor
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "examples/**"
+      - ".github/workflows/**"
+  pull_request:
+    paths:
+      - "examples/**"
+      - ".github/workflows/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ejemplo-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  node:
+    name: Node.js
+    uses: ./.github/workflows/reusable-node.yml
+    with:
+      working-directory: examples/node-app
+      node-versions: '["20", "22"]'
+
+  python:
+    name: Python
+    uses: ./.github/workflows/reusable-python.yml
+    with:
+      working-directory: examples/python-app
+      python-version: "3.12"
+
+  dotnet:
+    name: .NET
+    uses: ./.github/workflows/reusable-dotnet.yml
+    with:
+      working-directory: examples/dotnet-app
+      dotnet-version: "8.0.x"
+
+  docker:
+    name: Imagen Docker
+    needs: [node]
+    uses: ./.github/workflows/reusable-docker-ghcr.yml
+    permissions:
+      contents: read
+      packages: write
+    with:
+      context: examples/node-app
+      image-name: ${{ github.repository }}/demo-node-app
+      push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}

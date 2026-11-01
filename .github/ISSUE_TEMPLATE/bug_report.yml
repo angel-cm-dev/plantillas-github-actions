@@ -1,0 +1,52 @@
+name: Reporte de error
+description: Algo no funciona como se esperaba
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Gracias por tomarte el tiempo de reportar el problema. Completa los campos para poder reproducirlo.
+
+  - type: dropdown
+    id: workflow
+    attributes:
+      label: Workflow afectado
+      options:
+        - reusable-dotnet
+        - reusable-node
+        - reusable-python
+        - reusable-docker-ghcr
+        - Otro
+    validations:
+      required: true
+
+  - type: textarea
+    id: descripcion
+    attributes:
+      label: Descripción
+      description: ¿Qué ocurrió y qué esperabas que ocurriera?
+    validations:
+      required: true
+
+  - type: textarea
+    id: pasos
+    attributes:
+      label: Pasos para reproducir
+      placeholder: |
+        1. Llamar al workflow con ...
+        2. Ver el error en ...
+    validations:
+      required: true
+
+  - type: input
+    id: run
+    attributes:
+      label: Enlace a la ejecución (run) de Actions
+      placeholder: https://github.com/usuario/repo/actions/runs/123
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs relevantes
+      render: shell

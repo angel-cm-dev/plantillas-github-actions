@@ -1,0 +1,62 @@
+# Workflow reutilizable: instalación, lint, pruebas y build de proyectos Node.js.
+name: Reusable · Node.js
+
+on:
+  workflow_call:
+    inputs:
+      node-versions:
+        description: Lista JSON de versiones de Node para la matriz
+        type: string
+        default: '["22"]'
+      working-directory:
+        description: Carpeta que contiene package.json
+        type: string
+        default: "."
+      run-lint:
+        description: Ejecutar npm run lint (si existe)
+        type: boolean
+        default: true
+      run-build:
+        description: Ejecutar npm run build (si existe)
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Node ${{ matrix.node }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ${{ fromJSON(inputs.node-versions) }}
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+          cache-dependency-path: ${{ inputs.working-directory }}/package-lock.json
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Lint
+        if: ${{ inputs.run-lint }}
+        run: npm run lint --if-present
+
+      - name: Pruebas
+        run: npm test
+
+      - name: Build
+        if: ${{ inputs.run-build }}
+        run: npm run build --if-present

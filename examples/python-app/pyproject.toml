@@ -1,0 +1,18 @@
+[project]
+name = "igv-demo"
+version = "1.0.0"
+description = "Ejemplo de proyecto Python para el workflow reutilizable."
+requires-python = ">=3.10"
+license = { text = "MIT" }
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

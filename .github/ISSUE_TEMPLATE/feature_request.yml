@@ -1,0 +1,29 @@
+name: Solicitud de mejora
+description: Propón una nueva funcionalidad o un nuevo workflow
+title: "[Mejora]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problema
+    attributes:
+      label: ¿Qué problema resuelve?
+      description: Describe el caso de uso.
+    validations:
+      required: true
+
+  - type: textarea
+    id: propuesta
+    attributes:
+      label: Propuesta
+      description: ¿Cómo te gustaría que funcione? Incluye un ejemplo de uso si es posible.
+      render: yaml
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: verificacion
+    attributes:
+      label: Verificación
+      options:
+        - label: Revisé que no exista un issue similar
+          required: true

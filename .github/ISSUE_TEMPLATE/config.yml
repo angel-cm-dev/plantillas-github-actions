@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentación
+    url: https://github.com/angel-cm-dev/plantillas-github-actions#readme
+    about: Revisa el README antes de abrir un issue.

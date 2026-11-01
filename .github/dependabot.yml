@@ -1,0 +1,49 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:00"
+      timezone: America/Lima
+    groups:
+      actions:
+        patterns:
+          - "*"
+    commit-message:
+      prefix: "ci"
+    labels:
+      - dependencias
+      - ci
+
+  - package-ecosystem: npm
+    directory: "/examples/node-app"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "deps(node)"
+
+  - package-ecosystem: pip
+    directory: "/examples/python-app"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "deps(python)"
+
+  - package-ecosystem: nuget
+    directory: "/examples/dotnet-app"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "deps(dotnet)"
+
+  - package-ecosystem: docker
+    directory: "/examples/node-app"
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: "deps(docker)"

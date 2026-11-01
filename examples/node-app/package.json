@@ -1,0 +1,16 @@
+{
+  "name": "demo-node-app",
+  "version": "1.0.0",
+  "description": "API mínima de ejemplo para los workflows reutilizables.",
+  "private": true,
+  "license": "MIT",
+  "main": "src/server.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "lint": "node --check src/server.js && node --check src/slug.js",
+    "test": "node --test"
+  }
+}
